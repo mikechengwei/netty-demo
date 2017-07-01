@@ -35,10 +35,10 @@ public class Handler implements Runnable {
     }
 
     private void read() {
-        System.out.print("reading ...");
+        System.out.println("reading ...");
     }
 
     private void send() {
-        System.out.print("sending...");
+        System.out.println("sending...");
     }
 }
