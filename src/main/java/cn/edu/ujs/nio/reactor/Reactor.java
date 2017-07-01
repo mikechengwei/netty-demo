@@ -27,7 +27,7 @@ public class Reactor implements Runnable {
 
     public void registerChannel(
             int eventType, SelectableChannel channel) throws Exception {
-        SelectionKey selectionKey0 = channel.register(demultiplexer, eventType);
+        channel.register(demultiplexer, eventType);
     }
 
     public Selector getDemultiplexer() {
@@ -36,6 +36,7 @@ public class Reactor implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("reactor 启动");
         while (true) {
             try {
                 demultiplexer.select();
@@ -46,6 +47,7 @@ public class Reactor implements Runnable {
                 while (iterator.hasNext()) {
                     SelectionKey handle = iterator.next();
                     if (handle.isAcceptable()) {
+                        System.out.println("accept");
                         EventHandler handler =
                                 handlers.get(SelectionKey.OP_ACCEPT);
                         handler.setKey(handle);

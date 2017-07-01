@@ -30,14 +30,16 @@ public class WriteEventHandler implements EventHandler {
     @Override
     public void run() {
         try {
-            System.out.println("===== Write Event Handler =====");
+            System.out.println("handle writeEvent");
 
             SocketChannel socketChannel =
                     (SocketChannel) handle.channel();
             //ByteBuffer bb = ByteBuffer.wrap("Hello Client!\n".getBytes());
             ByteBuffer inputBuffer = (ByteBuffer) handle.attachment();
             socketChannel.write(inputBuffer);
+            inputBuffer.clear();
             socketChannel.close();
+
         } catch (Exception e) {
             System.out.println("write error" + e.getMessage());
         }

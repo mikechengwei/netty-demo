@@ -27,7 +27,7 @@ public class ReadEventHandler implements EventHandler {
     @Override
     public void run() {
         try {
-            System.out.println("read handler start");
+            System.out.println("handle readEvent");
             SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
 
             socketChannel.read(buffer);
@@ -38,11 +38,12 @@ public class ReadEventHandler implements EventHandler {
             System.out.println("Received message from client : " +
                     new String(readBuffer));
             buffer.flip();
+
             // Rewind the buffer to start reading from the beginning
             // Register the interest for writable readiness event for
             // this channel in order to echo back the message
 
-            SelectionKey sk = socketChannel.register(
+            socketChannel.register(
                     demultiplexer, SelectionKey.OP_WRITE, buffer);
         } catch (IOException e) {
             System.out.print(e.getMessage());

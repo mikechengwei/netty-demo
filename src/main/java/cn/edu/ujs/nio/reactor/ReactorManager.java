@@ -30,7 +30,7 @@ public class ReactorManager {
 
         reactor.run(); // Run the dispatcher loop
 
-        System.out.println("reactor 启动");
+
     }
 
     public static void main(String[] args) {

@@ -25,7 +25,7 @@ public class AcceptEventHandler implements EventHandler {
     @Override
     public void run() {
         try {
-            System.out.println("start handle acceptEvent");
+            System.out.println("handle acceptEvent");
             //建立通道
 
             ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
@@ -34,6 +34,7 @@ public class AcceptEventHandler implements EventHandler {
                 socketChannel.configureBlocking(false);
                 socketChannel.register(
                         demultiplexer, SelectionKey.OP_READ);
+                System.out.println("开始写入");
 
             }
         } catch (Exception e) {
