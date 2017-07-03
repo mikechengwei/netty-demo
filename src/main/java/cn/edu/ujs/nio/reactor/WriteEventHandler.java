@@ -36,9 +36,11 @@ public class WriteEventHandler implements EventHandler {
                     (SocketChannel) handle.channel();
             //ByteBuffer bb = ByteBuffer.wrap("Hello Client!\n".getBytes());
             ByteBuffer inputBuffer = (ByteBuffer) handle.attachment();
+            inputBuffer.flip();
             socketChannel.write(inputBuffer);
-            inputBuffer.clear();
+
             socketChannel.close();
+            inputBuffer.clear();
 
         } catch (Exception e) {
             System.out.println("write error" + e.getMessage());

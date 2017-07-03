@@ -11,7 +11,7 @@ import java.nio.channels.SocketChannel;
  */
 public class ReadEventHandler implements EventHandler {
     private Selector demultiplexer;
-    private ByteBuffer buffer = ByteBuffer.allocate(2048);
+    private ByteBuffer readBuffer = ByteBuffer.allocate(2048);
     private SelectionKey selectionKey;
 
     public ReadEventHandler(Selector demultiplexer) {
@@ -29,24 +29,27 @@ public class ReadEventHandler implements EventHandler {
         try {
             System.out.println("handle readEvent");
             SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+            while (socketChannel.read(readBuffer) != 0) {
 
-            socketChannel.read(buffer);
-
-            buffer.flip();
-            byte[] readBuffer = new byte[buffer.limit()];
-            buffer.get(readBuffer);
+            }
+            readBuffer.flip();
+            byte[] printBuffer = new byte[readBuffer.limit()];
+            readBuffer.get(printBuffer);
             System.out.println("Received message from client : " +
-                    new String(readBuffer));
-            buffer.flip();
+                    new String(printBuffer));
+            ByteBuffer writebuffer = ByteBuffer.allocate(2048);
+            writebuffer.put(printBuffer);
 
-            // Rewind the buffer to start reading from the beginning
-            // Register the interest for writable readiness event for
-            // this channel in order to echo back the message
 
             socketChannel.register(
-                    demultiplexer, SelectionKey.OP_WRITE, buffer);
+                    demultiplexer, SelectionKey.OP_WRITE, writebuffer);
+
         } catch (IOException e) {
             System.out.print(e.getMessage());
         }
+    }
+
+    private boolean isFull(ByteBuffer byteBuffer) {
+        return byteBuffer.position() == byteBuffer.capacity() ? true : false;
     }
 }

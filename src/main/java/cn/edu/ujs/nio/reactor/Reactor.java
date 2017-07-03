@@ -52,7 +52,7 @@ public class Reactor implements Runnable {
                                 handlers.get(SelectionKey.OP_ACCEPT);
                         handler.setKey(handle);
                         handler.run();
-                        iterator.remove();
+//                        iterator.remove();
 
                     }
 
